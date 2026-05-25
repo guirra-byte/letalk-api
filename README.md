@@ -14,7 +14,7 @@ Backend e frontend são **repositórios Git separados**:
 
 | Repositório | Conteúdo |
 |-------------|----------|
-| **Este repo** (`letalk`) | API Fastify, worker, Prisma, infra local (Docker), skills do agente |
+| **Este repo** (`letalk-api`) | API Fastify, worker, Prisma, infra local (Docker), skills do agente |
 | **[letalk-leads-frontend](https://github.com/guirra-byte/letalk-leads-frontend)** | Next.js — Kanban, busca CNPJ, importação CSV |
 
 Durante o desafio, cheguei a manter ambos no mesmo workspace para **contextualizar o pair-programming com IA** (Cursor enxerga API e UI juntas). Porém, para versionamento e entrega, o frontend permanece no repo próprio — alinhado ao que seria esperado em ambiente real, onde **CI/CD, releases e ownership** costumam ser independentes por aplicação.
