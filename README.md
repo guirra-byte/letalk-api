@@ -1,4 +1,5 @@
 # letalk — Backend (Desafio Técnico)
+<img width="1200" height="630" alt="image (1)" src="https://github.com/user-attachments/assets/0bc04901-0c5a-484a-b6d8-c58c6a44ad17" />
 
 API backend para consulta e enriquecimento de CNPJs, gestão de leads em pipeline de prospecção e importação em lote via CSV. Integra a [Brasil API](https://brasilapi.com.br/) para dados da Receita Federal, persiste leads enriquecidos no PostgreSQL, utiliza Redis para cache e S3 para upload direto de arquivos.
 
