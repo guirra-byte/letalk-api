@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model CompanyProfile {
+  id   String @id @default(uuid())
+  cnpj String @unique
+
+  pipelineStatus PipelineStatus @default(PENDING)
+  priority       Priority       @default(MEDIUM)
+
+  legalName String
+  tradeName String?
+  email     String?
+
+  leadName         String?
+  leadEmail        String?
+  leadPhoneNumber  String?
+  companyName      String?
+
+  capitalSocial Int
+
+  foundedAt DateTime
+
+  primaryActivity String
+
+  cnaes      Cnae[]
+  partners   Partner[]
+  taxRegimes TaxRegime[]
+
+  importedAt DateTime?
+  isImported Boolean   @default(false)
+
+  zipCode      String
+  street       String
+  number       String
+  complement   String?
+  neighborhood String
+  city         String
+  state        String
+
+  createdAt                  DateTime                    @default(now())
+  updatedAt                  DateTime                    @updatedAt
+  companyProfileBatchImports CompanyProfileBatchImport[]
+}
+
+model CompanyProfileBatchImport {
+  id               String         @id @default(uuid())
+  batchImportId    String         @unique
+  companyProfiles  CompanyProfile @relation(fields: [companyProfileId], references: [id])
+  companyProfileId String
+}
+
+model CnpjBatchImport {
+  id String @id @unique @default(uuid())
+
+  fileKey            String @unique
+  totalCnpjCount     Int?   @default(0)
+  processedCnpjCount Int?   @default(0)
+  failedCnpjCount    Int?   @default(0)
+
+  status     CnpjBatchImportStatus @default(PENDING)
+  finishedAt DateTime?
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @default(now()) @updatedAt
+}
+
+model Partner {
+  id        String   @id @default(uuid())
+  name      String
+  role      String
+  cnpjOrCpf String
+  ageRange  String?
+  joinedAt  DateTime
+
+  companyProfileId String
+  companyProfile   CompanyProfile @relation(fields: [companyProfileId], references: [id])
+}
+
+model Cnae {
+  id          String   @id @default(uuid())
+  code        String
+  description String
+  type        CnaeType
+
+  companyProfileId String
+  companyProfile   CompanyProfile @relation(fields: [companyProfileId], references: [id])
+}
+
+model TaxRegime {
+  id           String @id @default(uuid())
+  year         Int
+  taxationType String
+
+  companyProfileId String
+  companyProfile   CompanyProfile @relation(fields: [companyProfileId], references: [id])
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum PipelineStatus {
+  PENDING
+  IN_REVIEW
+  QUALIFIED
+  REJECTED
+}
+
+enum CnaeType {
+  PRIMARY
+  SECONDARY
+}
+
+enum CnpjBatchImportStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
